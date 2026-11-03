@@ -76,7 +76,7 @@ kbd{font-family:var(--pixel);color:var(--ink);background:#1d1633;border:1px soli
 <div id="app">
   <div id="screen"><canvas id="cv" role="img" aria-label="Scarf Kid game screen"></canvas></div>
   <div class="bar">
-    <span class="keys"><span><kbd>A</kbd><kbd>D</kbd> or <kbd>←</kbd><kbd>→</kbd> move</span><span><kbd>Space</kbd>/<kbd>Z</kbd> jump</span><span><kbd>J</kbd>/<kbd>X</kbd> attack</span><span><kbd>K</kbd>/<kbd>C</kbd> special</span><span><kbd>L</kbd>/<kbd>V</kbd> shield</span><span><kbd>J</kbd>+<kbd>K</kbd> super</span></span>
+    <span class="keys"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move</span><span><kbd>Space</kbd> jump</span><span><kbd>J</kbd> attack</span><span><kbd>K</kbd> special</span><span><kbd>L</kbd> shield</span></span>
     <button class="tbtn hi" id="helpBtn" type="button">How to play (H)</button>
     <button class="tbtn" id="mute" type="button">Sound on</button>
     <button class="tbtn" id="pauseBtn" type="button">Pause</button>
@@ -416,10 +416,16 @@ function drawFighter(f,tint){
     if(!tint){ctx.save();ctx.translate(-.3,-.5);path(pts);ctx.strokeStyle=shade(base,.3);ctx.lineWidth=w*.32;ctx.stroke();ctx.restore();}};
   const ball=(pt,r,k)=>{ctx.beginPath();ctx.arc(pt[0],pt[1],r,0,Math.PI*2);ctx.fillStyle=col(k);ctx.fill();ctx.lineWidth=.6;ctx.strokeStyle=O;ctx.stroke();};
   const cuff=(e,h)=>{if(!c.col.cuff)return;const q=[e[0]+(h[0]-e[0])*.72,e[1]+(h[1]-e[1])*.72];ball(q,lw*.58,'cuff');};
-  const shoe=(pt)=>{ctx.beginPath();ctx.ellipse(pt[0]+1.6,pt[1]-1.5,3.8,2,0,0,Math.PI*2);ctx.fillStyle=col('shoe');ctx.fill();ctx.lineWidth=.6;ctx.strokeStyle=O;ctx.stroke();
-    if(!tint){if(c.col.shoeTop){ctx.fillStyle=c.col.shoeTop;ctx.fillRect(pt[0]-2,pt[1]-.7,7.2,.9);}ctx.fillStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.ellipse(pt[0]+2.6,pt[1]-2.6,1.6,.5,0,0,Math.PI*2);ctx.fill();}};
+  // sneaker: heel and ankle over the leg, rounded toe forward, flat sole on the ground
+  const shoe=(pt,back)=>{const x=pt[0],y=pt[1];
+    ctx.beginPath();ctx.moveTo(x-2.6,y-4.4);ctx.lineTo(x+1.3,y-4.6);ctx.quadraticCurveTo(x+2.2,y-2.9,x+4.6,y-2.7);ctx.quadraticCurveTo(x+6.6,y-2.5,x+6.4,y-1);ctx.lineTo(x-3,y-1);ctx.quadraticCurveTo(x-3.6,y-2.8,x-2.6,y-4.4);ctx.closePath();
+    ctx.fillStyle=tint||(back?shade(c.col.shoe,-.22):c.col.shoe);ctx.fill();ctx.lineWidth=.6;ctx.strokeStyle=O;ctx.stroke();
+    ctx.beginPath();ctx.roundRect(x-3.1,y-1.3,9.6,1.4,.6);ctx.fillStyle=tint||(c.col.shoeTop?'#f4eff8':'#1a1520');ctx.fill();ctx.stroke();
+    if(!tint){if(c.col.shoeTop){ctx.beginPath();ctx.moveTo(x-2.4,y-4.3);ctx.lineTo(x+1.2,y-4.5);ctx.lineWidth=.9;ctx.strokeStyle=c.col.shoeTop;ctx.stroke();}
+      ctx.fillStyle='rgba(255,255,255,.4)';ctx.beginPath();ctx.ellipse(x+3.8,y-2.6,1.3,.45,-.1,0,Math.PI*2);ctx.fill();}};
+  const ank=pt=>[pt[0],pt[1]-3.2];
   const sh=[p.neck[0],p.neck[1]+3];
-  seg([p.hip,p.bk,p.bf],lw+1,'pantsD');shoe(p.bf);
+  seg([p.hip,p.bk,ank(p.bf)],lw+1,'pantsD');shoe(p.bf,true);
   seg([sh,p.be,p.bh],lw,'topD');cuff(p.be,p.bh);ball(p.bh,lw*.62,'hand');
   if(c.col.scarf&&f.tail){
     const pts=[[p.neck[0]-1.5,p.neck[1]]];for(const pt of f.tail)pts.push([(pt.x-f.x)/(s*d),(pt.y-f.y)/s]);
@@ -431,7 +437,7 @@ function drawFighter(f,tint){
     let fill=col('top');if(!tint){const g=ctx.createLinearGradient(nx-px*ws,ny-py*ws,nx+px*ws,ny+py*ws);g.addColorStop(0,shade(c.col.top,.22));g.addColorStop(.55,c.col.top);g.addColorStop(1,shade(c.col.top,-.3));fill=g;}
     ctx.fillStyle=fill;ctx.fill();ctx.lineWidth=.7;ctx.strokeStyle=O;ctx.stroke();
     if(c.col.belt){ctx.beginPath();ctx.moveTo(hx+px*wh*1.02,hy+py*wh*1.02);ctx.lineTo(hx-px*wh*1.02,hy-py*wh*1.02);ctx.lineWidth=1.8;ctx.strokeStyle=col('belt');ctx.lineCap='butt';ctx.stroke();ctx.lineCap='round';}}
-  seg([p.hip,p.fk,p.ff],lw+1,'pants');shoe(p.ff);
+  seg([p.hip,p.fk,ank(p.ff)],lw+1,'pants');shoe(p.ff);
   if(c.col.scarf){ctx.beginPath();ctx.ellipse(p.neck[0],p.neck[1]+.6,c.tw*.64,2.3,0,0,Math.PI*2);ctx.fillStyle=col('scarf');ctx.fill();ctx.lineWidth=.6;ctx.strokeStyle=O;ctx.stroke();}
   ctx.save();ctx.translate(p.head[0],p.head[1]-1.5);drawHead(c,tint);ctx.restore();
   seg([sh,p.fe,p.fh],lw,'top');cuff(p.fe,p.fh);ball(p.fh,lw*.62,'hand');
@@ -458,15 +464,20 @@ function drawFighterPx(f,tint){
   const T=pt=>[Math.round(f.x+pt[0]*s*d),Math.round(f.y+pt[1]*s)];
   const hip=T(p.hip),neck=T(p.neck),sh=T([p.neck[0],p.neck[1]+3]),fe=T(p.fe),fh=T(p.fh),be=T(p.be),bh=T(p.bh),fk=T(p.fk),ff=T(p.ff),bk=T(p.bk),bf=T(p.bf),hd=T(p.head);
   const lw=c.lw;
-  const shoe=(pt,shade)=>{const x=pt[0]+(d>0?-2:-4);rectPx(x,pt[1]-2,7,3,shade?(tint||c.col.shoe):col('shoe'));if(c.col.shoeTop)rectPx(x+(d>0?0:2),pt[1]-3,5,1,col('shoeTop'));};
+  // shoe rows from the ground up: [left, width] measured toward the toe; the sole sits on the ground line
+  const shoe=(pt,back)=>{const sc=back?(tint||shade(c.col.shoe,-.25)):col('shoe'),sole=tint||'#1a1520';
+    const row=(x0,w,y,cl)=>rectPx(d>0?pt[0]+x0:pt[0]-x0-w+1,pt[1]+y,w,1,cl);
+    row(-2,4,-4,c.col.shoeTop&&!tint?c.col.shoeTop:sc);row(-2,6,-3,sc);row(-3,9,-2,sc);row(-3,9,-1,sole);
+    if(!tint)row(4,1,-2,shade(c.col.shoe,.35));};
+  const ank=pt=>[pt[0],pt[1]-3];
   const hand=(pt)=>rectPx(pt[0]-Math.floor(lw/2),pt[1]-Math.floor(lw/2),lw,lw,col('hand'));
   const cuff=(e,h)=>{if(!c.col.cuff)return;const q=[e[0]+(h[0]-e[0])*.75,e[1]+(h[1]-e[1])*.75];rectPx(q[0]-Math.floor(lw/2),q[1]-Math.floor(lw/2),lw,lw,col('cuff'));};
-  limbPx(hip,bk,lw+1,col('pantsD'));limbPx(bk,bf,lw,col('pantsD'));shoe(bf,true);
+  limbPx(hip,bk,lw+1,col('pantsD'));limbPx(bk,ank(bf),lw,col('pantsD'));shoe(bf,true);
   limbPx(sh,be,lw,col('topD'));limbPx(be,bh,lw-1,col('topD'));cuff(be,bh);hand(bh);
   if(c.col.scarf&&f.tail){let prev=[neck[0]-d*2,neck[1]];f.tail.forEach((pt,i)=>{const q=[Math.round(pt.x),Math.round(pt.y)];limbPx(prev,q,i<3?3:2,col(i<3?'scarf':'scarfD'));prev=q;});}
   limbPx(hip,neck,c.tw,col('top'));
   if(c.col.belt)rectPx(hip[0]-Math.floor(c.tw/2),hip[1]-1,c.tw,2,col('belt'));
-  limbPx(hip,fk,lw+1,col('pants'));limbPx(fk,ff,lw,col('pants'));shoe(ff,false);
+  limbPx(hip,fk,lw+1,col('pants'));limbPx(fk,ank(ff),lw,col('pants'));shoe(ff,false);
   if(c.col.scarf)rectPx(neck[0]-Math.floor((c.tw+2)/2),neck[1]-2,c.tw+2,4,col('scarf'));
   const img=headImg(c,tint,d);
   ctx.drawImage(img,hd[0]-Math.round(img.width/2),hd[1]-Math.round(img.height/2));
@@ -649,7 +660,7 @@ function other(f){return G.f[1-f.pl];}
 
 /* ---------------- training checklist ---------------- */
 const TASKS=[
- ['run','RUN','hold {L} or {R}'],['jump','JUMP','{J}'],['djump','DOUBLE JUMP','jump again in the air'],['short','SHORT HOP','tap jump super quick'],
+ ['run','RUN','hold {L} or {R}'],['jump','JUMP','{J}  (or {U})'],['djump','DOUBLE JUMP','jump again in the air'],['short','SHORT HOP','tap jump super quick'],
  ['ff','FAST FALL','{D} while falling'],['crouch','DUCK','hold {D} on the ground'],['jab','JAB COMBO','{A} {A} {A}'],['side','SMASH','{R} + {A}  (hold {A} to charge)'],
  ['upa','UP SMASH','{U} + {A}'],['downa','LOW SWEEP','{D} + {A}'],['aerial','AIR ATTACK','{A} in the air'],['nspec','SHOOT','{S} alone = {N}'],
  ['sspec','DASH STRIKE','{R} + {S}'],['uspec','RECOVERY','{U} + {S}'],['dspec','COUNTER','{D} + {S}'],['shield','SHIELD','hold {H}'],
@@ -657,7 +668,7 @@ const TASKS=[
  ['ledge','LEDGE GRAB','fall next to the stage edge'],['spark','SPARK','hit with {A}, then {R}+{A} instantly'],['super','SUPER','{X} when your meter is full'],
 ];
 function keyTok(s){
-  const t=TOUCH?{L:'STICK ←',R:'STICK →',U:'STICK ↑',D:'STICK ↓',J:'JUMP',A:'ATTACK',S:'SPECIAL',H:'SHIELD',X:'SUPER'}:{L:'←',R:'→',U:'↑',D:'↓',J:'SPACE',A:'J',S:'K',H:'L',X:'J+K'};
+  const t=TOUCH?{L:'STICK ←',R:'STICK →',U:'STICK ↑',D:'STICK ↓',J:'JUMP',A:'ATTACK',S:'SPECIAL',H:'SHIELD',X:'SUPER'}:{L:'A',R:'D',U:'W',D:'S',J:'SPACE',A:'J',S:'K',H:'L',X:'J+K'};
   const sp=G.p&&G.p.c.sp?G.p.c.sp[0]:'SHOT';
   return s.replace(/\{(\w)\}/g,(_,k)=>k==='N'?sp:t[k]);
 }
@@ -1256,7 +1267,7 @@ function drawTitle(){
     txt(m,100,y-4,on?24:20,on?'#ffffff':'#bdb3dc','left');
     if(on)txt(MENUSUB[i],102,y+14,10,'#ffc2e0','left',false);
   });
-  txt(TOUCH?'TAP A MODE':'↑ ↓ CHOOSE · J OR ENTER TO GO',257,500,12,'#9d93c2');
+  txt(TOUCH?'TAP A MODE':'W S CHOOSE · J TO GO',257,500,12,'#9d93c2');
   txt('HERO SPRITE BY EAMES',760,512,11,'#9d93c2');
 }
 function cardRect(i){return{x:24+i*186,y:84,w:172,h:290};}
@@ -1264,7 +1275,7 @@ function drawSelect(){
   backdrop(1,.7);
   const two=G.mode==='versus';
   txt(two?'VERSUS · PICK YOUR FIGHTERS':G.mode==='training'?'TRAINING · PICK A FIGHTER':'ARCADE · PICK YOUR FIGHTER',480,34,24,'#ffe9a8');
-  txt(TOUCH?'TAP A FIGHTER, TAP AGAIN TO GO':two?'P1: A D + F TO LOCK · P2: ← → + K TO LOCK':'← → PICK · J OR SPACE TO GO · K BACK',480,62,11,'#9d93c2');
+  txt(TOUCH?'TAP A FIGHTER, TAP AGAIN TO GO':two?'P1: A D + F TO LOCK · P2: ← → + K TO LOCK':'A D PICK · J GO · K BACK',480,62,11,'#9d93c2');
   ROSTER.forEach((id,i)=>{const c=CHARS[id],r=cardRect(i);
     const on1=G.sel[0]===i,on2=two&&G.sel[1]===i,on=on1||on2;
     ctx.fillStyle=on?'#2c1f4a':'#160f28';ctx.fillRect(r.x,r.y,r.w,r.h);
@@ -1279,7 +1290,7 @@ function drawSelect(){
   const c=CHARS[ROSTER[G.sel[0]]];
   if(!two&&PIXEL)c.desc.forEach((l,i)=>txt(l,480,398+i*20,13,i===0?'#ffffff':'#cfc6ef'));
   else if(!two){txt(c.desc[0]+' '+c.desc[1]+' '+c.desc[2],480,394,12,'#ffffff');
-    const k=TOUCH?['SPECIAL','STICK→ + SPECIAL','STICK↑ + SPECIAL','STICK↓ + SPECIAL']:['K','→ K','↑ K','↓ K'];
+    const k=TOUCH?['SPECIAL','STICK→ + SPECIAL','STICK↑ + SPECIAL','STICK↓ + SPECIAL']:['K','D + K','W + K','S + K'];
     c.sp.forEach((n,i)=>{const x=150+i*220;txt(k[i],x,424,10,'#ff9ad0','center',false);txt(n,x,442,13,'#ffe9a8','center',false);});}
   else{const c2=CHARS[ROSTER[G.sel[1]]];txt('P1 '+c.name+'  vs  P2 '+c2.name,480,404,16,'#ffffff');txt(G.lock[0]&&!G.lock[1]?'WAITING FOR P2…':!G.lock[0]&&G.lock[1]?'WAITING FOR P1…':'',480,430,12,'#cfc6ef');}
   const canon=G.scale==='canon';
@@ -1411,7 +1422,7 @@ function drawHUD(){
   panel(G.p,300);panel(G.e,660);
   if(G.combo&&G.combo.n>=2){const isP=G.combo.who===G.p;txt(G.combo.n+' HITS',isP?300:660,446,18,'#ffe066');}
 }
-const TIPS=['{S} = {N}. AIM WITH {L} OR {R} FIRST','{R} + {A} = SMASH. HOLD {A} TO CHARGE IT','FELL OFF? JUMP, THEN {U} + {S} TO FLY BACK','HOLD {H} TO SHIELD · {H} + {A} TO GRAB','HIGHER % = THEY FLY FARTHER','LAND A JAB, THEN {R} + {A} FAST = SPARK','PRESS {D} WHILE FALLING TO FAST FALL','METER FULL? {X} FOR YOUR SUPER','{H} IN THE AIR = AIR DODGE','HOLD {D} TO DUCK UNDER SHOTS'];
+const TIPS=['{S} = {N}. FACE THEM FIRST','{R} + {A} = SMASH. HOLD {A} TO CHARGE IT','FELL OFF? JUMP, THEN {U} + {S} TO FLY BACK','HOLD {H} TO SHIELD · {H} + {A} TO GRAB','HIGHER % = THEY FLY FARTHER','LAND A JAB, THEN {R} + {A} FAST = SPARK','PRESS {D} WHILE FALLING TO FAST FALL','METER FULL? {X} FOR YOUR SUPER','{H} IN THE AIR = AIR DODGE','HOLD {D} TO DUCK UNDER SHOTS'];
 function drawTip(){
   const i=Math.floor(G.fightT/260)%TIPS.length;
   ctx.fillStyle='rgba(10,6,24,.6)';ctx.fillRect(180,10,600,26);
@@ -1441,54 +1452,55 @@ function drawResult(){
 }
 function wrap(s,x,y,maxW,size,col,lh){ctx.font=fontFor(size);const words=s.split(' ');let line='';for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){txt(line,x,y,size,col,'left',false);y+=lh;line=w;}else line=t;}if(line)txt(line,x,y,size,col,'left',false);return y+lh;}
 const HOWTO=[
- {title:'CONTROLS',rows:[
-   ['MOVE','A D   or   ← →','DRAG THE STICK'],
-   ['JUMP  (AGAIN IN THE AIR = DOUBLE JUMP)','SPACE   or   Z   (W / ↑ TOO)','JUMP'],
-   ['ATTACK','J   or   X','ATTACK'],
-   ['SPECIAL  (SHOOT · DASH · RECOVER · COUNTER)','K   or   C','SPECIAL'],
-   ['SHIELD  (HOLD)','L   or   V','SHIELD'],
-   ['GRAB','SHIELD + ATTACK','SHIELD + ATTACK'],
-   ['SUPER  (WHEN THE METER IS FULL)','ATTACK + SPECIAL TOGETHER','SUPER'],
-   ['DUCK · DROP THROUGH · FAST FALL','S   or   ↓','STICK DOWN'],
-   ['AIM UP / DOWN FOR MOVES','W S   or   ↑ ↓','STICK UP / DOWN'],
-   ['PAUSE','ESC','II  (TOP RIGHT)'],
- ],foot:'Left hand on A D, right hand on J K L. Or: arrows + Z X C V. Next page →'},
- {title:'ATTACK AND SPECIAL',blocks:[
-   ['ATTACK + A DIRECTION','Nothing held = 3-hit jab. ← or → = SMASH (hold attack to charge it). ↑ = up smash. ↓ = low sweep. While running = dash attack. In the air the direction picks one of 5 air attacks.'],
-   ['SPECIAL + A DIRECTION','Nothing held = SHOOT your fighter\'s shot (Scarf Kid: energy shot, Ironjaw: fireball, Gloop: blob, Zenith: pull orb, Hollow: teleport). Face the way you want to shoot first. ← or → = dash strike. ↑ = RECOVERY, flies you up: use it when you fall off! ↓ = counter.'],
-   ['SHIELD','Hold to block, it shrinks and can BREAK. While shielding: ← → roll, ↓ dodge in place, attack = grab, then hold a direction to throw. In the air shield = air dodge.'],
-   ['LEDGE','Fall next to the stage edge to grab it. Then jump, move toward the stage to climb, or attack to climb with a hit.'],
-   ['SECRET: SPARK','Land a jab, then press → + attack right away for black-and-red lightning and huge knockback.'],
- ],foot:'Next page →'},
- {title:'SPECIALS FOR EVERY FIGHTER',chars:true,foot:'Next page →'},
- {title:'HOW TO WIN',blocks:[
-   ['THE % METER','Every hit raises the other fighter\'s %. The higher it is, the farther they fly. At 100%+ a smash can send them off the screen.'],
-   ['STOCKS','Knock them past the edge of the screen to take a stock. Everyone has 3. Last one standing wins.'],
-   ['POWER SCALING','Pick it on the fighter screen. BALANCED: stars are just for show. CANON: more stars hit harder and fly less. Try ZENITH in CANON to see why power scaling is hard.'],
-   ['2 PLAYERS, 1 KEYBOARD','P1: W A S D + F attack · G special · H shield · SPACE jump. P2: arrows + K attack · L special · ; shield · P jump. Two game controllers work too (A attack, B special, X jump, shoulders shield, A+B super).'],
-   ['ON A PHONE','Drag anywhere on the left side to move. Buttons on the right. Turn the phone sideways for a full-screen view.'],
- ],foot:'Press J, K or ESC to close'},
+ {title:'CONTROLS',keys:true},
+ {title:'MOVES',grid:true},
+ {title:'HOW TO WIN',list:[
+   ['HIT THEM','Every hit raises their %. Higher % = they fly farther.'],
+   ['KNOCK THEM OFF','Send them past the edge of the screen. 3 lives each.'],
+   ['DON\'T FALL','Fell off? Jump, then W + K to fly back. You can grab the edge.'],
+   ['POWER SCALING','BALANCED = fair. CANON = more stars hit harder. Pick it on the fighter screen.'],
+   ['2 PLAYERS','P1: W A S D + F G H  ·  P2: arrows + K L ;'],
+ ]},
 ];
+function keycap(x,y,w,label,col){
+  ctx.fillStyle='#000';ctx.fillRect(x,y+4,w,44);ctx.fillStyle=col;ctx.fillRect(x,y,w,44);ctx.fillStyle='rgba(255,255,255,.25)';ctx.fillRect(x,y,w,3);
+  txt(label,x+w/2,y+22,label.length>2?14:20,'#ffffff','center',false);
+}
 function drawHowto(){
-  ST(1,0,0,1,0,0);ctx.fillStyle='rgba(8,5,20,.94)';ctx.fillRect(0,0,960,540);
+  ST(1,0,0,1,0,0);ctx.fillStyle='rgba(8,5,20,.95)';ctx.fillRect(0,0,960,540);
   const P=HOWTO[G.howto];
-  txt('HOW TO PLAY · '+P.title,480,36,24,'#ffe9a8');
-  txt(`PAGE ${G.howto+1} OF ${HOWTO.length}  ·  ${TOUCH?'TAP TO FLIP':'← → TO FLIP'}`,480,64,10,'#9d93c2','center',false);
-  if(P.rows){
-    txt('ACTION',60,96,11,'#9d93c2','left',false);txt('KEYBOARD',450,96,11,'#9d93c2','left',false);txt('PHONE',730,96,11,'#9d93c2','left',false);
-    P.rows.forEach((r,i)=>{const y=124+i*33;if(i%2){ctx.fillStyle='rgba(255,255,255,.05)';ctx.fillRect(50,y-15,860,30);}txt(r[0],60,y,11,'#ffffff','left',false);txt(r[1],450,y,12,'#ff9ad0','left',false);txt(r[2],730,y,12,'#7fe0ff','left',false);});
-  }else if(P.chars){
-    ['','SPECIAL','→ + SPECIAL','↑ + SPECIAL','↓ + SPECIAL'].forEach((h,i)=>txt(h,i?140+i*160:60,98,11,'#9d93c2',i?'center':'left',false));
-    ROSTER.forEach((id,r)=>{const c=CHARS[id],y=136+r*68;if(r%2){ctx.fillStyle='rgba(255,255,255,.05)';ctx.fillRect(50,y-30,860,60);}portrait(c,90,y,40,1);txt(c.name,124,y,13,'#ffffff','left',false);c.sp.forEach((n,i)=>txt(n,300+i*160,y,12,i===0?'#ffe9a8':'#cfc6ef','center',false));});
+  txt(P.title,480,40,28,'#ffe9a8');
+  ctx.fillStyle=G.howto?'#3a2d5c':'#ff9ad0';HOWTO.forEach((_,i)=>{ctx.fillStyle=i===G.howto?'#ff9ad0':'#3a2d5c';ctx.fillRect(456+i*18,64,12,4);});
+  if(P.keys&&TOUCH){
+    txt('LEFT THUMB',240,120,13,'#9d93c2');txt('RIGHT THUMB',720,120,13,'#9d93c2');
+    txt('DRAG TO MOVE',240,230,24,'#ffffff');txt('ANYWHERE ON THE LEFT',240,262,12,'#cfc6ef');
+    [['ATTACK','#d9468f'],['SPECIAL','#3346e0'],['JUMP','#6b54b0'],['SHIELD','#1b8f80']].forEach(([l,c],i)=>keycap(560+(i%2)*170,170+(i>>1)*70,150,l,c));
+    txt('SUPER LIGHTS UP WHEN YOUR METER IS FULL',480,400,13,'#ffe066');
+    txt('TURN YOUR PHONE SIDEWAYS FOR THE BIG SCREEN',480,436,12,'#cfc6ef');
+  }else if(P.keys){
+    txt('LEFT HAND',250,108,13,'#9d93c2');txt('RIGHT HAND',700,108,13,'#9d93c2');
+    keycap(226,130,48,'W','#3a2d5c');keycap(170,184,48,'A','#3a2d5c');keycap(226,184,48,'S','#3a2d5c');keycap(282,184,48,'D','#3a2d5c');
+    txt('MOVE',250,250,16,'#ffffff');
+    keycap(150,290,200,'SPACE','#6b54b0');txt('JUMP  (TWICE = DOUBLE JUMP)',250,356,13,'#ffffff');
+    [['J','ATTACK','#d9468f'],['K','SPECIAL','#3346e0'],['L','SHIELD','#1b8f80']].forEach(([k,l,c],i)=>{const x=588+i*80;keycap(x,184,62,k,c);txt(l,x+31,250,13,'#ffffff');});
+    txt('J + K TOGETHER = SUPER',700,312,14,'#ffe066');txt('(WHEN THE METER IS FULL)',700,334,11,'#cfc6ef');
+    txt('ESC = PAUSE   ·   H = THIS SCREEN',480,420,12,'#9d93c2');
+  }else if(P.grid){
+    const t=TOUCH?['ATTACK','SPECIAL','—','STICK ↔','STICK ↑','STICK ↓']:['J  ATTACK','K  SPECIAL','ALONE','A / D +','W +','S +'];
+    const rows=[[t[2],'JAB COMBO','SHOOT'],[t[3],'SMASH (HOLD TO CHARGE)','DASH STRIKE'],[t[4],'UP SMASH','FLY UP (RECOVERY)'],[t[5],'LOW SWEEP','COUNTER']];
+    txt(t[0],460,100,15,'#ff9ad0');txt(t[1],730,100,15,'#7fe0ff');
+    rows.forEach((r,i)=>{const y=150+i*56;if(!(i%2)){ctx.fillStyle='rgba(255,255,255,.05)';ctx.fillRect(110,y-24,740,48);}txt(r[0],140,y,15,'#ffe9a8','left',false);txt(r[1],460,y,13,'#ffffff','center',false);txt(r[2],730,y,13,'#ffffff','center',false);});
+    txt(TOUCH?'SHIELD + STICK = ROLL / DODGE   ·   SHIELD + ATTACK = GRAB':'L + A/D = ROLL   ·   L + S = DODGE   ·   L + J = GRAB',480,400,12,'#cfc6ef');
+    txt('IN THE AIR, ATTACK + A DIRECTION = 5 MORE MOVES',480,432,12,'#cfc6ef');
   }else{
-    let y=104;for(const [h,b] of P.blocks){txt(h,80,y,15,'#ff9ad0','left',false);y=wrap(b,80,y+24,800,12,'#efe8ff',20)+10;}
+    P.list.forEach(([h,b],i)=>{const y=118+i*72;txt(h,140,y,16,'#ff9ad0','left',false);txt(b,140,y+26,12,'#efe8ff','left',false);});
   }
-  txt(P.foot,480,512,12,'#ffe9a8');
+  txt(G.howto<HOWTO.length-1?(TOUCH?'TAP FOR NEXT  →':'J OR D = NEXT  →'):(TOUCH?'TAP TO CLOSE':'J = CLOSE'),480,508,13,'#ffe9a8');
 }
 function drawPause(){
   ctx.fillStyle='rgba(8,4,20,.7)';ctx.fillRect(0,0,960,540);txt('PAUSED',480,170,60,'#ffffff');
   PMENU().forEach((m,i)=>txt((G.pmenu===i?'▶ ':'  ')+m,480,260+i*40,20,G.pmenu===i?'#ffffff':'#9d93c2'));
-  txt(TOUCH?'TAP AN OPTION':'↑ ↓ CHOOSE · J SELECT · ESC RESUME',480,470,12,'#cfc6ef');
+  txt(TOUCH?'TAP AN OPTION':'W S CHOOSE · J SELECT · ESC RESUME',480,470,12,'#cfc6ef');
 }
 const PMENU=()=>['RESUME','HOW TO PLAY',G.mode==='training'?'RESET %':'RESTART FIGHT','QUIT TO MENU'];
 function drawTexts(){
@@ -1587,7 +1599,7 @@ function pauseSelect(i){
 }
 function resultSelect(i){if(i===0)startVersus();else if(i===1){G.lock=[false,false];G.phase='select';G.t=0;}else goTitle();}
 
-const KEYS1P={KeyA:'left',ArrowLeft:'left',KeyD:'right',ArrowRight:'right',KeyW:'up',ArrowUp:'up',KeyS:'down',ArrowDown:'down',Space:'jump',KeyZ:'jump',KeyJ:'attack',KeyX:'attack',KeyK:'special',KeyC:'special',KeyL:'shield',KeyV:'shield',ShiftLeft:'shield',ShiftRight:'shield',KeyI:'super',KeyB:'super'};
+const KEYS1P={KeyA:'left',KeyD:'right',KeyW:'up',KeyS:'down',Space:'jump',KeyJ:'attack',KeyK:'special',KeyL:'shield',ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down'};   // arrows still work for menus
 const KEYS2P=[{KeyA:'left',KeyD:'right',KeyW:'up',KeyS:'down',KeyF:'attack',KeyG:'special',KeyH:'shield',KeyT:'super',KeyR:'jump',Space:'jump'},
               {ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down',KeyK:'attack',KeyL:'special',Semicolon:'shield',KeyO:'super',KeyP:'jump',Numpad1:'attack',Numpad2:'special',Numpad3:'shield',Numpad5:'super',Numpad0:'jump'}];
 const GLOBAL={Escape:'pause',Enter:'start',KeyM:'mute',Slash:'help'};
