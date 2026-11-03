@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <title>Scarf Kid</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap">
@@ -15,7 +15,7 @@
   --reserve:64px; --b:clamp(44px,13vw,60px);
   color-scheme:dark;
 }
-html,body{height:100%}
+html,body{height:100%;touch-action:manipulation}
 body{margin:0;background:var(--void);color:var(--ink);font-family:var(--pixel);overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 #app{box-sizing:border-box;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 #screen{position:relative;width:min(100%, calc((100vh - var(--reserve) - 20px) * 16 / 9));width:min(100%, calc((100dvh - var(--reserve) - 20px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * 16 / 9));max-width:100%}
@@ -32,14 +32,14 @@ kbd{font-family:var(--pixel);color:var(--ink);background:#1d1633;border:1px soli
 #stick .base{position:absolute;left:var(--sx,30%);top:var(--sy,55%);width:var(--sr);height:var(--sr);margin:calc(var(--sr) / -2) 0 0 calc(var(--sr) / -2);border-radius:50%;border:3px solid rgba(255,255,255,.25);background:rgba(20,14,40,.45);opacity:.6}
 #stick.on .base{opacity:1}
 #stick .knob{position:absolute;left:50%;top:50%;width:46%;height:46%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffffff,#bfb4e6);box-shadow:0 3px 0 rgba(0,0,0,.45);transform:translate(-50%,-50%) translate(var(--kx,0px),var(--ky,0px))}
-#stick .lbl{position:absolute;left:var(--sx,30%);top:calc(var(--sy,55%) + var(--sr) / 2 + 6px);transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.12em;pointer-events:none;white-space:nowrap}
+#stick .lbl{font-family:Rajdhani,'Segoe UI',system-ui,sans-serif;position:absolute;left:var(--sx,30%);top:calc(var(--sy,55%) + var(--sr) / 2 + 6px);transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.12em;pointer-events:none;white-space:nowrap}
 #stick.on .lbl{display:none}
 .btns{position:absolute;right:max(6px,env(safe-area-inset-right,0px));bottom:6px;width:calc(var(--b) * 3.7);height:calc(var(--b) * 3.3);touch-action:none}
-.pb{position:absolute;font-family:var(--pixel);font-weight:700;font-size:12px;color:#fff;border:3px solid #000;border-radius:50%;width:var(--b);height:var(--b);box-shadow:0 4px 0 #000,inset 0 -5px 0 rgba(0,0,0,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;touch-action:none;-webkit-user-select:none;user-select:none;line-height:1.05}
+.pb{position:absolute;font-family:Rajdhani,'Segoe UI',system-ui,sans-serif;font-weight:700;font-size:12px;color:#fff;border:3px solid #000;border-radius:50%;width:var(--b);height:var(--b);box-shadow:0 4px 0 #000,inset 0 -5px 0 rgba(0,0,0,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;touch-action:none;-webkit-user-select:none;user-select:none;line-height:1.05}
 .pb small{display:block;font-size:8px;opacity:.9;margin-top:2px;max-width:92%;overflow:hidden;white-space:nowrap}
 .pb.on{transform:translateY(3px);box-shadow:0 1px 0 #000,inset 0 -2px 0 rgba(0,0,0,.25);filter:brightness(1.35)}
 .pb.atk{width:calc(var(--b) * 1.42);height:calc(var(--b) * 1.42);right:calc(var(--b) * .1);bottom:calc(var(--b) * .15);background:#d9468f;font-size:15px}
-.pb.spc{right:calc(var(--b) * 1.72);bottom:calc(var(--b) * .05);background:#3346e0}
+.pb.spc{right:calc(var(--b) * 1.72);bottom:calc(var(--b) * .05);background:#3346e0;font-size:10px}
 .pb.jmp{right:calc(var(--b) * .3);bottom:calc(var(--b) * 1.78);background:#6b54b0}
 .pb.shd{right:calc(var(--b) * 1.58);bottom:calc(var(--b) * 1.4);background:#1b8f80;font-size:11px}
 .pb.sup{right:calc(var(--b) * 2.75);bottom:calc(var(--b) * 2.15);width:calc(var(--b) * .85);height:calc(var(--b) * .85);background:#4a1820;opacity:.4;font-size:10px}
@@ -47,19 +47,19 @@ kbd{font-family:var(--pixel);color:var(--ink);background:#1d1633;border:1px soli
 @keyframes pulse{50%{filter:brightness(1.6)}}
 @media (prefers-reduced-motion: reduce){.pb.sup.ready{animation:none}}
 #tpause{position:absolute;right:max(10px,env(safe-area-inset-right,0px));top:8px;width:40px;height:34px;border-radius:8px;border:2px solid var(--rim);background:rgba(20,14,40,.7);color:#fff;font:700 14px var(--pixel);touch-action:manipulation}
-#rot{position:absolute;left:50%;top:6px;transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;white-space:nowrap;pointer-events:none}
+#rot{position:absolute;left:50%;top:6px;transform:translateX(-50%);font-family:Rajdhani,'Segoe UI',system-ui,sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;white-space:nowrap;pointer-events:none}
 /* Phones: the game sits on top and a gamepad fills the rest of the screen. Turned sideways, the game fills the screen and the pad floats over it. */
 @media (hover:none) and (pointer:coarse){
-  :root{--b:calc(clamp(52px,15vw,70px) * var(--bs,1));--sr:calc(clamp(112px,34vw,150px) * var(--bs,1))}
+  :root{--b:calc(clamp(44px,12.5vw,58px) * var(--bs,1));--sr:calc(clamp(96px,27vw,124px) * var(--bs,1))}
   #app{justify-content:flex-start;gap:0;padding:max(8px,env(safe-area-inset-top,0px)) 8px 0 8px}
   #screen{width:100%}
   .bar{display:none}
-  #pad{display:block;position:relative;flex:1;width:100%;min-height:250px;margin-bottom:env(safe-area-inset-bottom,0px)}
+  #pad{display:block;position:relative;flex:1;width:100%;min-height:170px;margin-bottom:env(safe-area-inset-bottom,0px)}
   .btns{bottom:clamp(10px,calc(50% - var(--b) * 1.65),240px)}
   #stick{--sy:50%}
 }
 @media (hover:none) and (pointer:coarse) and (orientation:landscape){
-  :root{--b:calc(clamp(44px,13vh,62px) * var(--bs,1));--sr:calc(clamp(100px,30vh,140px) * var(--bs,1))}
+  :root{--b:calc(clamp(38px,10.5vh,52px) * var(--bs,1));--sr:calc(clamp(84px,24vh,112px) * var(--bs,1))}
   #app{padding:0;justify-content:center}
   #screen{width:min(100vw,calc(100dvh * 16 / 9))}
   canvas{box-shadow:none}
@@ -68,7 +68,8 @@ kbd{font-family:var(--pixel);color:var(--ink);background:#1d1633;border:1px soli
   #stick,.btns,#tpause{pointer-events:auto}
   #stick{top:18%}
   .btns{bottom:6px}
-  .pb{opacity:.82}.pb.sup{opacity:.35}.pb.sup.ready{opacity:.95}
+  .pb{opacity:.6}.pb.sup{opacity:.3}.pb.sup.ready{opacity:.9}
+  #stick .base{opacity:.3}#stick.on .base{opacity:.75}
   #rot{display:none}
 }
 </style>
@@ -84,7 +85,7 @@ kbd{font-family:var(--pixel);color:var(--ink);background:#1d1633;border:1px soli
   </div>
   <div id="pad" aria-label="Touch controls">
     <div id="stick"><div class="base"><div class="knob"></div></div><span class="lbl">DRAG TO MOVE</span></div>
-    <span id="rot">TURN YOUR PHONE SIDEWAYS FOR A BIGGER SCREEN</span>
+    <span id="rot">TURN SIDEWAYS FOR A BIGGER SCREEN</span>
     <button type="button" id="tpause" aria-label="Pause">II</button>
     <div class="btns">
       <button type="button" class="pb sup" data-k="super">SUPER</button>
@@ -115,6 +116,18 @@ const PIXEL=true;   // build flag: the pixel version is this same file with PIXE
 const DPR=2;   // canvas is drawn at 1920x1080 for a sharp look
 const cv=document.getElementById('cv');cv.width=W*SC*DPR;cv.height=H*SC*DPR;
 const MAIN=cv.getContext('2d');MAIN.imageSmoothingEnabled=!PIXEL;MAIN.imageSmoothingQuality='high';
+// VH = height of the screen in layout units (width is always 960). On an upright phone the fight view grows
+// taller so the game fills about 3/4 of the screen; menus stay 960x540. UIY centers 960x540 overlays in it.
+let VH=540,UIY=0;const COARSE=matchMedia('(hover: none) and (pointer: coarse)');
+function fitCanvas(){
+  let vh=540;
+  const tall=(TOUCH||COARSE.matches)&&innerHeight>innerWidth*1.15&&(G.phase==='ready'||G.phase==='fight'||G.phase==='ko');
+  if(tall){const w=cv.clientWidth||innerWidth;vh=clamp(Math.round(960*(innerHeight*.74-8)/w),540,1800);}
+  if(vh!==VH){VH=vh;cv.height=Math.round(VH*DPR);cv.style.aspectRatio=`960/${VH}`;MAIN.imageSmoothingEnabled=!PIXEL;MAIN.imageSmoothingQuality='high';}
+  UIY=(VH-540)/2;
+}
+function skyT(pz,ox,oy){pz=Math.max(pz,VH/(SC*(H+80))*1.02);ST(SC*pz,0,0,SC*pz,SC*(W/2-(W/2+(cam.x-W/2)*.2)*pz)+ox,VH/2-SC*(H/2+(cam.y-H/2)*.2)*pz+oy);}
+function worldT(z,ox,oy){ST(SC*z,0,0,SC*z,SC*(W/2-cam.x*z)+ox*SC,VH/2-SC*cam.y*z+oy*SC);}
 let ctx=MAIN,K=DPR;
 const ST=(a,b,c,d,e,f)=>ctx.setTransform(a*K,b*K,c*K,d*K,e*K,f*K);
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -689,7 +702,7 @@ function announce(text){
 /* Move effects shared by both art styles: Zenith's domain, light/geyser columns, push rings. */
 function drawDomain(){
   if(!(G.domain>0)||!G.domainBy)return;const f=G.domainBy,e=170-G.domain,a=Math.min(1,G.domain/20,e/8);
-  ctx.globalAlpha=a*.55;ctx.fillStyle='#efeaff';ctx.fillRect(-200,-200,W+400,H+400);
+  ctx.globalAlpha=a*.55;ctx.fillStyle='#efeaff';ctx.fillRect(-300,-500,W+600,H+1000);
   ctx.globalAlpha=a*.8;ctx.strokeStyle='#4ff0ff';ctx.lineWidth=1;
   for(let k=0;k<5;k++){const r=(e*2.4+k*36)%180;ctx.beginPath();ctx.arc(f.x,f.y-30,r,0,Math.PI*2);ctx.stroke();}
   ctx.globalAlpha=1;
@@ -733,13 +746,13 @@ function drawFighterPx(f,tint){
   limbPx(sh,fe,lw,col('top'));limbPx(fe,fh,lw-1,col('top'));cuff(fe,fh);hand(fh);
 }
 function drawWorldPx(ox,oy,z,pz){
-  ST(SC*pz,0,0,SC*pz,SC*(W/2-(W/2+(cam.x-W/2)*.2)*pz)+ox,SC*(H/2-(H/2+(cam.y-H/2)*.2)*pz)+oy);
+  skyT(pz,ox,oy);
   ctx.drawImage(SKY[G.stage],-SXP,-SYP);
-  ST(SC*z,0,0,SC*z,SC*(W/2-cam.x*z)+ox*SC,SC*(H/2-cam.y*z)+oy*SC);
+  worldT(z,ox,oy);
   ctx.drawImage(STG[G.stage],0,0);
   const neg=G.neg>0;
-  if(neg){ctx.fillStyle='#0a0003';ctx.fillRect(-200,-200,W+400,H+400);}
-  if(G.freeze>0){ctx.fillStyle='rgba(8,4,20,.6)';ctx.fillRect(-200,-200,W+400,H+400);}
+  if(neg){ctx.fillStyle='#0a0003';ctx.fillRect(-300,-500,W+600,H+1000);}
+  if(G.freeze>0){ctx.fillStyle='rgba(8,4,20,.6)';ctx.fillRect(-300,-500,W+600,H+1000);}
   drawDomain();
   for(const p of G.projs){
     if(p.wave){rectPx(p.x-p.r*1.5,p.y+p.r-3,p.r*3,3,neg?'#ff2b3b':p.col);discPx(p.x,p.y+2,p.r-1,neg?'#ff2b3b':p.col);discPx(p.x,p.y+3,Math.max(1,p.r-4),'#ffffff');continue;}
@@ -1524,13 +1537,13 @@ function updCam(snap){
   else for(const f of G.f){if(f.state==='dead'||f.hidden)continue;n++;const fx=clamp(f.x,BL.l+60,BL.r-60),fy=clamp(f.y,BL.t+60,BL.b-30);x0=Math.min(x0,fx);x1=Math.max(x1,fx);y0=Math.min(y0,fy-50);y1=Math.max(y1,fy);}
   if(!n){x0=STAGE.main.x0;x1=STAGE.main.x1;y0=110;y1=196;}
   const cx=(x0+x1)/2*.8+W/2*.2,cy=(y0+y1)/2*.8+150*.2;
-  const span=Math.max((x1-x0)+170,((y1-y0)+120)*W/H);
-  const z=clamp(W/span,1,G.freeze>0?1.9:1.6)+cam.kick;
-  const hw=W/2/z,hh=H/2/z;
-  const tx=clamp(cx,hw-30,W-hw+30),ty=clamp(cy,hh-70,H-hh);
+  const span=Math.max((x1-x0)+170,((y1-y0)+120)*960/VH);
+  const z=clamp(W/span,1,G.freeze>0?1.9:VH>540?2.3:1.6)+cam.kick;
+  const hw=W/2/z,hh=VH/(2*SC*z),lo=hh-70,hi=H-hh+(VH>540?50:0);
+  const tx=clamp(cx,hw-30,W-hw+30),ty=lo<=hi?clamp(cy,lo,hi):(lo+hi)/2;
   const k=snap?1:.1;cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;cam.z+=(z-cam.z)*(snap?1:.07);cam.kick*=.86;
 }
-function WS(x,y){return[SC*(W/2+(x-cam.x)*cam.z),SC*(H/2+(y-cam.y)*cam.z)];}
+function WS(x,y){return[SC*(W/2+(x-cam.x)*cam.z),VH/2+SC*(y-cam.y)*cam.z];}
 
 function step(){
   G.frame++;G.t++;
@@ -1705,14 +1718,14 @@ function drawArena(){
   if(PIXEL)drawWorldPx(ox,oy,z,pz);
   else{
   // sky: slow parallax so it always fills the screen
-  ST(SC*pz,0,0,SC*pz,SC*(W/2-(W/2+(cam.x-W/2)*.2)*pz)+ox,SC*(H/2-(H/2+(cam.y-H/2)*.2)*pz)+oy);
+  skyT(pz,ox,oy);
   ctx.drawImage(SKY[G.stage],-60,-40,W+120,H+80);
-  const setWorld=()=>ST(SC*z,0,0,SC*z,SC*(W/2-cam.x*z)+ox*SC,SC*(H/2-cam.y*z)+oy*SC);
+  const setWorld=()=>worldT(z,ox,oy);
   setWorld();
   ctx.drawImage(STG[G.stage],0,0,W,H);
   const neg=G.neg>0;
-  if(neg){ctx.fillStyle='#0a0003';ctx.fillRect(-200,-200,W+400,H+400);}
-  if(G.freeze>0){ctx.fillStyle='rgba(8,4,20,.6)';ctx.fillRect(-200,-200,W+400,H+400);}
+  if(neg){ctx.fillStyle='#0a0003';ctx.fillRect(-300,-500,W+600,H+1000);}
+  if(G.freeze>0){ctx.fillStyle='rgba(8,4,20,.6)';ctx.fillRect(-300,-500,W+600,H+1000);}
   drawDomain();
   for(const p of G.projs){
     if(p.wave){const c1=neg?'#ff2b3b':p.col,rg=ctx.createRadialGradient(p.x,p.y+4,0,p.x,p.y+4,p.r*1.8);rg.addColorStop(0,'#ffffff');rg.addColorStop(.4,c1);rg.addColorStop(1,rgba(c1,0));ctx.globalCompositeOperation='lighter';ctx.fillStyle=rg;ctx.beginPath();ctx.ellipse(p.x,p.y+4,p.r*1.8,p.r*1.4,0,Math.PI,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';continue;}
@@ -1751,18 +1764,18 @@ function drawArena(){
   }
   ST(1,0,0,1,0,0);
   // KO blast beams
-  for(const k of G.kofx){const [sx,sy]=WS(k.x,k.y),a=1-k.t/26,len=900,wd=60*a+10;ctx.save();ctx.translate(clamp(sx,0,960),clamp(sy,0,540));ctx.rotate(k.ang);ctx.globalAlpha=a*.85;ctx.fillStyle=k.col;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(len,-wd);ctx.lineTo(len,wd);ctx.fill();ctx.fillStyle='#ffffff';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(len,-wd*.35);ctx.lineTo(len,wd*.35);ctx.fill();ctx.restore();}
+  for(const k of G.kofx){const [sx,sy]=WS(k.x,k.y),a=1-k.t/26,len=900,wd=60*a+10;ctx.save();ctx.translate(clamp(sx,0,960),clamp(sy,0,VH));ctx.rotate(k.ang);ctx.globalAlpha=a*.85;ctx.fillStyle=k.col;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(len,-wd);ctx.lineTo(len,wd);ctx.fill();ctx.fillStyle='#ffffff';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(len,-wd*.35);ctx.lineTo(len,wd*.35);ctx.fill();ctx.restore();}
   drawFinish();
   for(const f of G.f)tag(f);
-  if(G.white>0){ctx.fillStyle=`rgba(255,255,255,${G.white/12})`;ctx.fillRect(0,0,960,540);}
+  if(G.white>0){ctx.fillStyle=`rgba(255,255,255,${G.white/12})`;ctx.fillRect(0,0,960,VH);}
   drawHUD();
   const ph=G.phase;
   if(ph==='ready'){
-    if(G.t<20)txt(STAGES[G.stage].name,480,200,22,'#ffffff');
-    else if(G.t<110){const n=3-Math.floor((G.t-20)/30);txt(String(n),480,220,110,'#ffe9a8');}
+    if(G.t<20)txt(STAGES[G.stage].name,480,200+UIY,22,'#ffffff');
+    else if(G.t<110){const n=3-Math.floor((G.t-20)/30);txt(String(n),480,220+UIY,110,'#ffe9a8');}
   }
-  if(ph==='fight'&&G.t<40)txt('GO!',480,220,110-G.t,'#ff9ad0');
-  if(ph==='ko'&&G.t>10)txt(G.timeOut?'TIME!':'GAME!',480,200,90,'#ffe066');
+  if(ph==='fight'&&G.t<40)txt('GO!',480,220+UIY,110-G.t,'#ff9ad0');
+  if(ph==='ko'&&G.t>10)txt(G.timeOut?'TIME!':'GAME!',480,200+UIY,90,'#ffe066');
   if(ph==='fight'&&G.mode==='training')drawChecklist();
   else if(ph==='fight'&&((G.mode==='arcade'&&G.stage===0)||(G.mode==='battle'&&G.fightT<1800)))drawTip();
   if(ph==='result')drawResult();
@@ -1771,9 +1784,9 @@ function tag(f){
   if(f.state==='dead'||f.hidden)return;
   const s=f.c.s,[sx,sy]=WS(f.x,f.y-54*s);
   const col=PCOL[f.pl],label=f.human?'P'+(f.pl+1):G.mode==='training'?'DUMMY':'CPU';
-  const out=sx<0||sx>960||sy<0||sy>540;
+  const out=sx<0||sx>960||sy<0||sy>VH;
   if(out){
-    const x=clamp(sx,30,930),y=clamp(sy+30,30,510);
+    const x=clamp(sx,30,930),y=clamp(sy+30,30,VH-110);
     ctx.fillStyle='#0b0614';ctx.beginPath();ctx.arc(x,y,24,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle=col;ctx.lineWidth=3;ctx.stroke();
     portrait(f.c,x,y+2,30,f.face);
@@ -1803,9 +1816,11 @@ function stockIcons(f,x,y){
   for(let i=0;i<Math.max(3,f.stocks);i++){if(i>=3)break;ctx.globalAlpha=i<f.stocks?1:.18;portrait(f.c,x+i*20,y,16,1);}ctx.globalAlpha=1;
 }
 function drawHUD(){
+  ST(1,0,0,1,0,VH-540);   // panels sit at the bottom of however tall the screen is
   const n=G.f.length,w=n>2?222:236,gap=(960-n*w)/(n+1);
   G.f.forEach((f,i)=>{const cx=n===2?(i?660:300):gap*(i+1)+w*i+w/2;f.hudX=cx;panel(f,cx,w);if(f.stocks<=0&&G.mode!=='training'&&G.rule!==2){ctx.fillStyle='rgba(8,4,20,.6)';ctx.fillRect(cx-w/2,462,w,70);txt('OUT',cx,497,20,'#9d93c2');}});
   if(G.combo&&G.combo.n>=2&&G.combo.who.hudX)txt(G.combo.n+' HITS',G.combo.who.hudX,446,18,'#ffe066');
+  ST(1,0,0,1,0,0);
   if(G.rule===2&&G.phase!=='result'){const sec=Math.ceil(G.timer/60);txt(Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'),480,32,28,sec<=10?'#ff6b6b':'#ffffff');}
 }
 const TIPS=['{S} = {N}. FACE THEM FIRST','{R} + {A} = SMASH. HOLD {A} TO CHARGE IT','FELL OFF? JUMP, THEN {U} + {S} TO FLY BACK','HOLD {H} TO SHIELD · {H} + {A} TO GRAB','HIGHER % = THEY FLY FARTHER','LAND A JAB, THEN {R} + {A} FAST = SPARK','PRESS {D} WHILE FALLING TO FAST FALL','METER FULL? {X} FOR YOUR SUPER','{H} IN THE AIR = AIR DODGE','HOLD {D} TO DUCK UNDER SHOTS'];
@@ -1861,7 +1876,7 @@ function keycap(x,y,w,label,col){
   txt(label,x+w/2,y+22,label.length>2?14:20,'#ffffff','center',false);
 }
 function drawHowto(){
-  ST(1,0,0,1,0,0);ctx.fillStyle='rgba(8,5,20,.95)';ctx.fillRect(0,0,960,540);
+  ST(1,0,0,1,0,0);ctx.fillStyle='rgba(8,5,20,.95)';ctx.fillRect(0,0,960,VH);ST(1,0,0,1,0,UIY);
   const P=HOWTO[G.howto];
   txt(P.title,480,40,28,'#ffe9a8');
   ctx.fillStyle=G.howto?'#3a2d5c':'#ff9ad0';HOWTO.forEach((_,i)=>{ctx.fillStyle=i===G.howto?'#ff9ad0':'#3a2d5c';ctx.fillRect(456+i*18,64,12,4);});
@@ -1892,7 +1907,7 @@ function drawHowto(){
   txt(G.howto<HOWTO.length-1?(TOUCH?'TAP FOR NEXT  →':'J OR D = NEXT  →'):(TOUCH?'TAP TO CLOSE':'J = CLOSE'),480,508,13,'#ffe9a8');
 }
 function drawPause(){
-  ctx.fillStyle='rgba(8,4,20,.8)';ctx.fillRect(0,0,960,540);txt('PAUSED',190,120,48,'#ffffff');
+  ST(1,0,0,1,0,0);ctx.fillStyle='rgba(8,4,20,.8)';ctx.fillRect(0,0,960,VH);ST(1,0,0,1,0,UIY);txt('PAUSED',190,120,48,'#ffffff');
   PMENU().forEach((m,i)=>txt((G.pmenu===i?'▶ ':'  ')+m,60,pauseY(i),17,G.pmenu===i?'#ffffff':'#9d93c2','left'));
   txt(TOUCH?'TAP AN OPTION':'W S CHOOSE · J SELECT · ESC RESUME',190,470,10,'#cfc6ef');
   if(G.p)moveList(G.p,430,72);
@@ -1924,12 +1939,12 @@ function syncPad(){
 }
 
 function render(){
-  ST(1,0,0,1,0,0);ctx.fillStyle='#000';ctx.fillRect(0,0,960,540);
+  fitCanvas();ST(1,0,0,1,0,0);ctx.fillStyle='#000';ctx.fillRect(0,0,960,VH);
   const ph=G.phase;
   if(ph==='title')drawTitle();else if(ph==='rules')drawRules();else if(ph==='settings')drawSettings();else if(ph==='select')drawSelect();else if(ph==='intro')drawIntro();else if(ph==='ending')drawEnding();else drawArena();
   if(ph!=='title'&&ph!=='select'&&ph!=='intro'&&ph!=='ending'&&ph!=='rules'&&ph!=='settings')drawTexts();
-  if(G.paused)drawPause();
-  if(G.howto!=null)drawHowto();
+  if(G.paused){drawPause();ST(1,0,0,1,0,0);}
+  if(G.howto!=null){drawHowto();ST(1,0,0,1,0,0);}
   syncPad();musicSync();
 }
 
@@ -2086,11 +2101,16 @@ function stickEnd(){stickId=null;stickEl.classList.remove('on');for(const k in S
 stickEl.addEventListener('pointerdown',e=>{if(stickId!==null)return;e.preventDefault();TOUCH=true;audio();stickId=e.pointerId;try{stickEl.setPointerCapture(e.pointerId)}catch(_){}const r=stickEl.getBoundingClientRect();sx=e.clientX-r.left;sy=e.clientY-r.top;stickEl.style.setProperty('--sx',sx+'px');stickEl.style.setProperty('--sy',sy+'px');stickEl.classList.add('on');stickSet(0,0);});
 stickEl.addEventListener('pointermove',e=>{if(e.pointerId!==stickId)return;const r=stickEl.getBoundingClientRect();stickSet(e.clientX-r.left-sx,e.clientY-r.top-sy);});
 ['pointerup','pointercancel','lostpointercapture'].forEach(t=>stickEl.addEventListener(t,e=>{if(e.pointerId===stickId)stickEnd();}));
-document.getElementById('tpause').addEventListener('click',()=>{audio();if(G.phase==='fight'||G.phase==='ready')onPress(0,'pause');else if(G.howto!=null)G.howto=null;});
+document.getElementById('tpause').addEventListener('pointerdown',e=>{e.preventDefault();audio();if(G.phase==='fight'||G.phase==='ready')onPress(0,'pause');else if(G.howto!=null)G.howto=null;});
+// Phones: a fast double tap or a pinch should never zoom the page mid-fight.
+for(const el of[pad,cv])el.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault();},{passive:false});
+let lastTouchEnd=0;
+document.addEventListener('touchend',e=>{const now=Date.now();if(now-lastTouchEnd<350&&e.cancelable)e.preventDefault();lastTouchEnd=now;},{passive:false});
+for(const ev of['gesturestart','gesturechange','dblclick'])document.addEventListener(ev,e=>e.preventDefault(),{passive:false});
 cv.addEventListener('pointerdown',e=>{
   if(e.pointerType==='touch')TOUCH=true;
   audio();
-  const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*960,y=(e.clientY-r.top)/r.height*540;
+  const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*960,y=(e.clientY-r.top)/r.height*VH-UIY;
   if(G.howto!=null){onPress(0,x<300?'left':'tap');return;}
   if(G.paused){for(let i=0;i<PMENU().length;i++)if(Math.abs(y-pauseY(i))<18&&x<400){pauseSelect(i);return;}return;}
   if(G.phase==='title'){for(let i=0;i<MENU.length;i++)if(Math.abs(y-(272+i*44))<20&&x<480){G.menu=i;chooseMenu(i);return;}return;}
