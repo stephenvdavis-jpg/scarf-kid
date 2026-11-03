@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scarf Kid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Bebas+Neue&family=Rajdhani:wght@600;700&display=swap">
+<style>
+:root{--void:#0d0a1a;--rim:#2a2046;--ink:#efe8ff;--muted:#9d93c2;--pink:#ff9ad0;--blue:#5bc0ff;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#2b1d4f 0%,var(--void) 60%);color:var(--ink);font-family:Rajdhani,system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px;text-align:center}
+h1{font-family:Silkscreen,monospace;font-size:clamp(40px,11vw,88px);margin:0;color:var(--pink);text-shadow:4px 4px 0 #e0342c;letter-spacing:.04em;line-height:1}
+.sub{color:var(--muted);font-weight:700;letter-spacing:.12em;margin:14px 0 36px;font-size:15px}
+.pick{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;width:100%;max-width:640px}
+a.card{display:block;text-decoration:none;color:var(--ink);background:#160f28;border:3px solid var(--rim);border-radius:14px;padding:26px 18px;transition:transform .12s,border-color .12s}
+a.card:hover,a.card:focus-visible{transform:translateY(-3px);border-color:var(--pink);outline:none}
+.t1{font-family:Silkscreen,monospace;font-size:26px;color:#ffe9a8}
+.t2{font-family:'Bebas Neue',Impact,sans-serif;font-size:40px;color:var(--blue);letter-spacing:.04em}
+.d{color:var(--muted);font-weight:700;margin-top:8px;font-size:15px}
+.how{margin-top:34px;color:var(--muted);font-weight:600;font-size:15px;max-width:560px;line-height:1.5}
+.how b{color:var(--ink)}
+.credit{margin-top:22px;color:var(--pink);font-family:Silkscreen,monospace;font-size:12px}
+</style>
+<h1>SCARF KID</h1>
+<div class="sub">A PLATFORM FIGHTER · PICK A STYLE</div>
+<div class="pick">
+  <a class="card" href="pixel/"><div class="t1">PIXEL</div><div class="d">Classic pixel-art fighters</div></a>
+  <a class="card" href="hd/"><div class="t2">HD</div><div class="d">Smooth anime-style art</div></a>
+</div>
+<p class="how"><b>Laptop:</b> A D or arrows to move · Space jump · J attack · K special · L shield.<br><b>Phone:</b> turn it sideways, drag on the left to move, buttons on the right.<br>Press <b>H</b> in the game for the full how-to.</p>
+<div class="credit">HERO SPRITE BY EAMES</div>
+</html>
