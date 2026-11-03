@@ -112,12 +112,12 @@ body.playing #tpause{display:block}
 const W=480,H=270,SC=2,GRAV=.5,SPARKWIN=12,AIRK=.8;   // AIRK: how fast you can drift sideways in the air, as a share of each fighter's air speed
 // Stage shapes. A soft platform with `move` drifts back and forth (ax/ay = distance, per = frames per loop).
 const LAYOUTS=[
- {main:{x0:70,x1:410,y:196,bot:222},soft:[{x0:108,x1:204,y:142},{x0:276,x1:372,y:142},{x0:194,x1:286,y:90}]},
- {main:{x0:64,x1:416,y:196,bot:222},soft:[{x0:186,x1:294,y:136,move:{ax:110,ay:0,per:540}}],hazard:'train'},
- {main:{x0:82,x1:398,y:200,bot:226},soft:[{x0:108,x1:196,y:150},{x0:284,x1:372,y:150}],hazard:'fire'},
- {main:{x0:96,x1:384,y:196,bot:222},soft:[{x0:34,x1:122,y:150,move:{ax:0,ay:26,per:360}},{x0:358,x1:446,y:150,move:{ax:0,ay:26,per:360,ph:Math.PI}},{x0:196,x1:284,y:104,move:{ax:0,ay:16,per:300,ph:1.5}}]},
- {main:{x0:52,x1:428,y:196,bot:222},soft:[]},
- {main:{x0:120,x1:360,y:202,bot:226},soft:[{x0:52,x1:136,y:164},{x0:344,x1:428,y:164},{x0:136,x1:230,y:120},{x0:250,x1:344,y:120},{x0:196,x1:284,y:76,move:{ax:70,ay:0,per:420}}]},
+ {main:{x0:50,x1:430,y:196,bot:222},soft:[{x0:108,x1:204,y:142},{x0:276,x1:372,y:142},{x0:194,x1:286,y:90}]},
+ {main:{x0:44,x1:436,y:196,bot:222},soft:[{x0:186,x1:294,y:136,move:{ax:110,ay:0,per:540}}],hazard:'train'},
+ {main:{x0:62,x1:418,y:200,bot:226},soft:[{x0:108,x1:196,y:150},{x0:284,x1:372,y:150}],hazard:'fire'},
+ {main:{x0:76,x1:404,y:196,bot:222},soft:[{x0:34,x1:122,y:150,move:{ax:0,ay:26,per:360}},{x0:358,x1:446,y:150,move:{ax:0,ay:26,per:360,ph:Math.PI}},{x0:196,x1:284,y:104,move:{ax:0,ay:16,per:300,ph:1.5}}]},
+ {main:{x0:36,x1:444,y:196,bot:222},soft:[]},
+ {main:{x0:100,x1:380,y:202,bot:226},soft:[{x0:52,x1:136,y:164},{x0:344,x1:428,y:164},{x0:136,x1:230,y:120},{x0:250,x1:344,y:120},{x0:196,x1:284,y:76,move:{ax:70,ay:0,per:420}}]},
 ];
 let STAGE=LAYOUTS[0];
 function useLayout(i){const L=LAYOUTS[i%LAYOUTS.length];STAGE={main:{...L.main},soft:L.soft.map(P=>({...P,bx0:P.x0,bx1:P.x1,by:P.y,dx:0,dy:0})),hazard:L.hazard};}
@@ -1292,7 +1292,7 @@ function updFighter(f,o,live){
           if(f.t%2)G.parts.push({x:f.x-f.face*6,y:f.y-22,vx:-f.face,vy:rr(-.5,.5),life:12,max:12,col:c.aura,size:3,grav:0});
         }else if(f.t>=m.st+m.ac)f.vx*=.82;
       }else if(!m.rise&&!m.tele&&!moving){
-        if(f.onGround)f.vx*=m.slide?.95:.8;
+        if(f.onGround){f.vx*=m.slide?.9:.8;if(m.slide&&!f.onSoft){const nx=f.x+f.vx;if(nx<M.x0+6||nx>M.x1-6)f.vx=0;}}
         else{f.vx+=ax*c.airAcc*.7;if(Math.abs(f.vx)>c.air*AIRK)f.vx=Math.sign(f.vx)*c.air*AIRK;if(L.down&&f.vy>-2)f.ff=true;}
       }
       f.countering=!!m.counter&&f.t>=m.st&&f.t<m.st+m.ac;
