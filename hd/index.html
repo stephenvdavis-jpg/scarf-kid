@@ -40,8 +40,8 @@ kbd{font-family:var(--pixel);color:var(--ink);background:#1d1633;border:1px soli
 .pb.on{transform:translateY(3px);box-shadow:0 1px 0 #000,inset 0 -2px 0 rgba(0,0,0,.25);filter:brightness(1.35)}
 .pb.atk{width:calc(var(--b) * 1.42);height:calc(var(--b) * 1.42);right:calc(var(--b) * .1);bottom:calc(var(--b) * .15);background:#d9468f;font-size:15px}
 .pb.spc{right:calc(var(--b) * 1.72);bottom:calc(var(--b) * .05);background:#3346e0;font-size:10px}
-.pb.jmp{right:calc(var(--b) * .3);bottom:calc(var(--b) * 1.78);background:#6b54b0}
-.pb.shd{right:calc(var(--b) * 1.58);bottom:calc(var(--b) * 1.4);background:#1b8f80;font-size:11px}
+.pb.jmp{width:calc(var(--b) * 1.25);height:calc(var(--b) * 1.25);right:calc(var(--b) * 1.5);bottom:calc(var(--b) * 1.3);background:#6b54b0;font-size:14px}
+.pb.shd{right:calc(var(--b) * .25);bottom:calc(var(--b) * 1.75);background:#1b8f80;font-size:11px}
 .pb.sup{right:calc(var(--b) * 2.75);bottom:calc(var(--b) * 2.15);width:calc(var(--b) * .85);height:calc(var(--b) * .85);background:#4a1820;opacity:.4;font-size:10px}
 .pb.sup.ready{opacity:1;background:#e0342c;animation:pulse .5s steps(2) infinite}
 @keyframes pulse{50%{filter:brightness(1.6)}}
@@ -62,9 +62,9 @@ body.playing #tpause{display:block}
 @media (hover:none) and (pointer:coarse) and (orientation:portrait){
   #stick{width:40%;--sx:50%}
   :root{--sr:calc(min(26vh - 44px, 36vw) * var(--bs,1))}
-  .btns{top:24px;right:8px;bottom:8px;height:auto;width:min(calc(58% * var(--bs,1)),72%);display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1.2fr;gap:8px}
+  .btns{top:24px;right:8px;bottom:8px;height:auto;width:min(calc(58% * var(--bs,1)),72%);display:grid;grid-template-columns:1fr 1.45fr 1fr;grid-template-rows:1.15fr 1.2fr;gap:8px}
   .btns .pb{position:static;width:auto;height:auto;border-radius:18px;font-size:15px}
-  .btns .pb.sup{grid-area:1/1;font-size:12px}.btns .pb.shd{grid-area:1/2}.btns .pb.jmp{grid-area:1/3}.btns .pb.spc{grid-area:2/1;font-size:13px}.btns .pb.atk{grid-area:2/2/3/4;font-size:22px}
+  .btns .pb.sup{grid-area:1/1;font-size:12px}.btns .pb.shd{grid-area:1/3}.btns .pb.jmp{grid-area:1/2;font-size:20px}.btns .pb.spc{grid-area:2/1;font-size:13px}.btns .pb.atk{grid-area:2/2/3/4;font-size:22px}
   .btns .pb small{font-size:9px}
 }
 @media (hover:none) and (pointer:coarse) and (orientation:landscape){
