@@ -2177,8 +2177,8 @@ addEventListener('keydown',e=>{
   keysDown.add(e.code);recompute();onPress(m[0],m[1]);
 });
 addEventListener('keyup',e=>{if(keysDown.delete(e.code))recompute();});
-addEventListener('blur',()=>{keysDown.clear();touchKeys.clear();recompute();});
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&G.phase==='fight'&&!G.paused)setPause(true);});
+addEventListener('blur',()=>{keysDown.clear();releaseTouch();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)return;releaseTouch();if(G.phase==='fight'&&!G.paused)setPause(true);});
 // game controllers
 const padPrev=[{},{}];
 function padCount(){if(!navigator.getGamepads)return 0;return[...navigator.getGamepads()].filter(Boolean).length;}
@@ -2203,8 +2203,9 @@ const buzz=()=>{if(!G.set.vibe)return;try{navigator.vibrate&&navigator.vibrate(6
 const keyAt=(x,y)=>{const el=document.elementFromPoint(x,y);const b=el&&el.closest&&el.closest('#pad [data-k]');return b?b.dataset.k:null;};
 pad.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-k]');if(!b)return;e.preventDefault();TOUCH=true;buzz();touchKeys.set(e.pointerId,b.dataset.k);recompute();onPress(0,b.dataset.k);});
 pad.addEventListener('pointermove',e=>{if(!touchKeys.has(e.pointerId))return;const k=keyAt(e.clientX,e.clientY);if(k&&k!==touchKeys.get(e.pointerId)){touchKeys.set(e.pointerId,k);recompute();onPress(0,k);}});
-const endPtr=e=>{if(touchKeys.delete(e.pointerId))recompute();};
-pad.addEventListener('pointerup',endPtr);pad.addEventListener('pointercancel',endPtr);pad.addEventListener('lostpointercapture',endPtr);
+const endPtr=e=>{if(touchKeys.delete(e.pointerId))recompute();if(e.pointerId===stickId)stickEnd();};
+for(const t of['pointerup','pointercancel'])addEventListener(t,endPtr,true);
+pad.addEventListener('lostpointercapture',endPtr);
 pad.addEventListener('contextmenu',e=>e.preventDefault());
 // Floating stick: put a thumb down anywhere on the left side and drag.
 const STK={left:false,right:false,up:false,down:false};
@@ -2216,14 +2217,17 @@ function stickSet(dx,dy){
   const nx=dx/R,ny=dy/R,n={left:nx<-.35,right:nx>.35,up:ny<-.55,down:ny>.55};
   for(const k in n){if(n[k]&&!STK[k]){STK[k]=true;recompute();onPress(0,k==='up'&&!G.set.stickJump?'stickup':k);}else if(!n[k]&&STK[k]){STK[k]=false;recompute();}}
 }
+// Let go of every on-screen control (app switch, or no fingers left on the glass).
+function releaseTouch(){touchKeys.clear();stickEnd();}
 function stickEnd(){stickId=null;stickEl.classList.remove('on');for(const k in STK)STK[k]=false;recompute();['--sx','--sy','--kx','--ky'].forEach(p=>stickEl.style.removeProperty(p));}
-stickEl.addEventListener('pointerdown',e=>{if(stickId!==null)return;e.preventDefault();TOUCH=true;audio();stickId=e.pointerId;try{stickEl.setPointerCapture(e.pointerId)}catch(_){}const r=stickEl.getBoundingClientRect();sx=e.clientX-r.left;sy=e.clientY-r.top;stickEl.style.setProperty('--sx',sx+'px');stickEl.style.setProperty('--sy',sy+'px');stickEl.classList.add('on');stickSet(0,0);});
+stickEl.addEventListener('pointerdown',e=>{if(stickId!==null)stickEnd();e.preventDefault();TOUCH=true;audio();stickId=e.pointerId;try{stickEl.setPointerCapture(e.pointerId)}catch(_){}const r=stickEl.getBoundingClientRect();sx=e.clientX-r.left;sy=e.clientY-r.top;stickEl.style.setProperty('--sx',sx+'px');stickEl.style.setProperty('--sy',sy+'px');stickEl.classList.add('on');stickSet(0,0);});
 stickEl.addEventListener('pointermove',e=>{if(e.pointerId!==stickId)return;const r=stickEl.getBoundingClientRect();stickSet(e.clientX-r.left-sx,e.clientY-r.top-sy);});
-['pointerup','pointercancel','lostpointercapture'].forEach(t=>stickEl.addEventListener(t,e=>{if(e.pointerId===stickId)stickEnd();}));
+stickEl.addEventListener('lostpointercapture',e=>{if(e.pointerId===stickId)stickEnd();});
 document.getElementById('tpause').addEventListener('pointerdown',e=>{e.preventDefault();audio();if(G.phase==='fight'||G.phase==='ready')onPress(0,'pause');else if(G.howto!=null)G.howto=null;});
 // Phones: a fast double tap or a pinch should never zoom the page mid-fight.
 for(const el of[pad,cv])el.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault();},{passive:false});
 let lastTouchEnd=0;
+for(const t of['touchend','touchcancel'])document.addEventListener(t,e=>{if(e.touches.length===0&&(touchKeys.size||stickId!==null))releaseTouch();},true);
 document.addEventListener('touchend',e=>{const now=Date.now();if(now-lastTouchEnd<350&&e.cancelable)e.preventDefault();lastTouchEnd=now;},{passive:false});
 for(const ev of['gesturestart','gesturechange','dblclick'])document.addEventListener(ev,e=>e.preventDefault(),{passive:false});
 cv.addEventListener('pointerdown',e=>{
