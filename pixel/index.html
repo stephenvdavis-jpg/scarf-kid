@@ -215,7 +215,7 @@ const STYLES={
   downa:{st:9,dmg:10,hb:[-34,-10,68,10],ang:75,bkb:4,kbg:3.6,p1:'slam'},
   nair:{hb:[-20,-48,44,44],dmg:8},
   fair:{hb:[4,-40,30,18],dmg:11,p1:'blast'},
-  dair:{st:8,ac:20,rc:16,vel:[.6,7],dmg:12,hb:[-16,-16,36,18],ang:60,bkb:4,kbg:4,ll:16,landWave:{v:3,r:6,dmg:7,life:30},p0:'jump',p1:'flop'},
+  dair:{st:6,ac:20,rc:16,vel:[.6,7],dmg:12,hb:[-16,-16,36,18],ang:60,bkb:4,kbg:4,ll:16,landWave:{v:3,r:6,dmg:7,life:30},p0:'jump',p1:'flop'},
   super:{dash:2,gulp:1,hb:[0,-48,32,44],dmg:0},
    }},
  speedster:{stats:{s:1.08,tw:7,lw:3,run:4.3,dash:4.8,air:3.2,airAcc:.38,jump:10.2,grav:1.1,fall:7.4,weight:84,dm:.92,jumps:1,rise:10.8,sdash:7.6,tele:true},
@@ -240,7 +240,7 @@ const STYLES={
   downa:{st:14,ac:5,rc:26,dmg:13,hb:[-22,-14,44,14],kbg:4.4,ang:70,armor:1,quake:1,wave:{v:3.8,r:7,dmg:8,life:46},p0:'pillar',p1:'slam'},
   fair:{st:10,dmg:14,kbg:5.2,p1:'blast'},
   uair:{dmg:11,hb:[-8,-62,26,22],p1:'headbutt'},
-  dair:{st:11,ac:8,rc:20,vel:[0,6],dmg:15,kbg:4.6,ll:18},
+  dair:{st:7,ac:8,rc:20,vel:[0,6],dmg:15,kbg:4.6,ll:18},
   super:{dash:0,armor:1,st:14,ac:8,rc:28,hb:[-36,-56,72,58],dmg:22,bkb:7,kbg:7,ang:60,quake:1,wave:{v:4.4,r:9,dmg:12,life:70},p0:'pillar',p1:'slam'},
    }},
  showoff:{stats:{s:1.04,tw:9,lw:4,run:3.5,dash:4.1,air:3,airAcc:.36,jump:9.8,grav:.95,fall:6.4,weight:92,dm:1,jumps:1,rise:11,sdash:7,deflect:true},
@@ -251,7 +251,7 @@ const STYLES={
   upa:{st:12,ac:6,rc:24,dmg:13,hb:[-4,-120,24,120],kbg:7,fx:'column',fxCol:'#4ff0ff',p1:'pillar'},
   downa:{st:8,dmg:7,hb:[-30,-14,60,14],bkb:3.4,kbg:.4,ang:155,p1:'slam'},
   nair:{multi:5,ac:12,dmg:2.5,bkb:2,kbg:0,ang:90,last:{dmg:4,bkb:3.4,kbg:3.6,ang:45},hb:[-18,-48,40,40],fx:'ring'},
-  dair:{st:12,ac:8,vel:[0,4],dmg:13,kbg:4.4,ang:-85},
+  dair:{st:7,ac:8,vel:[0,4],dmg:13,kbg:4.4,ang:-85},
   super:{dash:0,st:22,ac:6,rc:30,hb:[-100,-110,200,124],dmg:12,bkb:0,kbg:0,domain:1,p0:'pillar',p1:'pillar'},
    }},
 };
@@ -354,7 +354,7 @@ const MOVES={
  fair:{st:7,ac:4,rc:14,dmg:10,hb:[4,-36,22,13],bkb:3,kbg:4.8,ang:40,air:1,ll:10,p0:'chamber',p1:'kick'},
  bair:{st:6,ac:4,rc:12,dmg:12,hb:[-30,-34,22,13],bkb:3.4,kbg:5.2,ang:40,air:1,ll:9,p0:'jump',p1:'bair'},
  uair:{st:5,ac:6,rc:12,dmg:8,hb:[-10,-70,28,24],bkb:3,kbg:5,ang:85,air:1,ll:7,p0:'jump',p1:'upper'},
- dair:{st:10,ac:5,rc:18,dmg:12,hb:[-8,-12,18,16],bkb:3,kbg:4,ang:-80,air:1,ll:14,p0:'jump',p1:'spike'},
+ dair:{st:5,ac:6,rc:18,dmg:12,hb:[-12,-14,24,20],bkb:3,kbg:4,ang:-80,air:1,ll:14,p0:'jump',p1:'spike'},
  nspec:{st:12,ac:1,rc:18,proj:1,charge:1,chargeBtn:'special',p0:'windup',p1:'blast'},
  tele:{st:16,ac:1,rc:1,tele:1,follow:'jab3',p0:'guard',p1:'idle0'},
  sspec:{st:6,ac:14,rc:16,dmg:9,hb:[4,-38,22,16],bkb:3.4,kbg:3.6,ang:35,dash:1,p0:'windup',p1:'super'},
@@ -949,7 +949,7 @@ const score=f=>(f.kos||0)-f.falls;
 const TASKS=[
  ['run','RUN','hold {L} or {R}'],['jump','JUMP','{J}  (or {U})'],['djump','DOUBLE JUMP','jump again in the air'],['short','SHORT HOP','tap jump super quick'],
  ['ff','FAST FALL','{D} while falling'],['crouch','DUCK','hold {D} on the ground'],['jab','JAB COMBO','{A} {A} {A}'],['side','SMASH','{R} + {A}  (hold {A} to charge)'],
- ['upa','UP SMASH','{U} + {A}'],['downa','LOW SWEEP','{D} + {A}'],['aerial','AIR ATTACK','{A} in the air'],['nspec','SHOOT','{S} alone = {N}'],
+ ['upa','UP SMASH','{U} + {A}'],['downa','LOW SWEEP','{D} + {A}'],['aerial','AIR ATTACK','{A} in the air · {D}+{A} stomps'],['nspec','SHOOT','{S} alone = {N}'],
  ['sspec','DASH STRIKE','{R} + {S}'],['uspec','RECOVERY','{U} + {S}'],['dspec','COUNTER','{D} + {S}'],['shield','SHIELD','hold {H}'],
  ['roll','ROLL','{H} then {L} or {R}'],['spot','DODGE','{H} then {D}'],['airdodge','AIR DODGE','{H} in the air'],['grab','GRAB','{H} + {A}'],['throw','THROW','grab, then hold a direction'],
  ['ledge','LEDGE GRAB','fall next to the stage edge'],['spark','SPARK','hit with {A}, then {R}+{A} instantly'],['super','SUPER','{X} when your meter is full'],
@@ -1135,7 +1135,9 @@ function onLand(f,vy){
     case'air':f.state='idle';break;
     case'helpless':f.state='land';f.t=14;break;
     case'airdodge':f.state='land';f.t=(f.adx||f.ady)?10:4;break;
-    case'attack':if(f.move.landWave)spawnWave(f,f.move.landWave);if(f.move.air){f.state='land';f.t=f.move.ll||6;}else if(f.move.rise){f.state='land';f.t=10;}break;
+    case'attack':if(f.move.landWave)spawnWave(f,f.move.landWave);
+      if(f.mname==='dair'&&f.t<f.move.st+f.move.ac){f.t=Math.max(f.t,f.move.st);f.vx*=.3;G.shake=Math.max(G.shake,2);dust(f);break;}
+      if(f.move.air){f.state='land';f.t=f.move.ll||6;}else if(f.move.rise){f.state='land';f.t=10;}break;
   }
   return true;
 }
@@ -1283,7 +1285,7 @@ function updFighter(f,o,live){
       if(m.blink&&f.t===m.st){let nx=f.x+f.face*m.blink;if(f.onGround&&!f.onSoft)nx=clamp(nx,M.x0+4,M.x1-4);burst(f.x,f.y-20,12,[c.aura,'#281f3d'],2,14,2,0);f.x=nx;burst(f.x,f.y-20,12,[c.aura,'#ffffff'],2,14,2,0);SFX.tele();}
       if(m.wave&&f.t===m.st)spawnWave(f,m.wave);
       if(m.quake&&f.t===m.st){G.shake=Math.max(G.shake,7);burst(f.x,f.y-2,16,['#d9c9e8','#a99bc0'],2.6,18,3,.05);}
-      const moving=m.vel&&f.t>=m.st&&f.t<m.st+m.ac;
+      const moving=m.vel&&f.t>=m.st&&f.t<m.st+m.ac&&!(m.air&&f.onGround);
       if(moving){f.vx=f.face*m.vel[0];f.vy=m.vel[1];grav=false;if(f.t%2)G.parts.push({x:f.x,y:f.y-20,vx:0,vy:0,life:10,max:10,col:c.aura,size:3,grav:0});}
       if(m.dash){
         if(f.t>=m.st&&f.t<m.st+m.ac){
@@ -1891,7 +1893,7 @@ function drawHUD(){
   ST(1,0,0,1,0,0);
   if(G.rule===2&&G.phase!=='result'){const sec=Math.ceil(G.timer/60);txt(Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'),480,32,28,sec<=10?'#ff6b6b':'#ffffff');}
 }
-const TIPS=['{S} = {N}. FACE THEM FIRST','{R} + {A} = SMASH. HOLD {A} TO CHARGE IT','FELL OFF? JUMP, THEN {U} + {S} TO FLY BACK','HOLD {H} TO SHIELD · {H} + {A} TO GRAB','HIGHER % = THEY FLY FARTHER','LAND A JAB, THEN {R} + {A} FAST = SPARK','PRESS {D} WHILE FALLING TO FAST FALL','METER FULL? {X} FOR YOUR SUPER','{H} IN THE AIR = AIR DODGE','HOLD {D} TO DUCK UNDER SHOTS'];
+const TIPS=['{S} = {N}. FACE THEM FIRST','{R} + {A} = SMASH. HOLD {A} TO CHARGE IT','FELL OFF? JUMP, THEN {U} + {S} TO FLY BACK','HOLD {H} TO SHIELD · {H} + {A} TO GRAB','HIGHER % = THEY FLY FARTHER','LAND A JAB, THEN {R} + {A} FAST = SPARK','PRESS {D} WHILE FALLING TO FAST FALL','METER FULL? {X} FOR YOUR SUPER','{H} IN THE AIR = AIR DODGE','HOLD {D} TO DUCK UNDER SHOTS','ABOVE THEM? {D} + {A} TO STOMP'];
 function drawTip(){
   if(PM())ST(1.5,0,0,1.5,-240,0);
   const i=Math.floor(G.fightT/260)%TIPS.length;
@@ -2005,7 +2007,7 @@ function drawHowto(){
     txt(t[0],460,100,15,'#ff9ad0');txt(t[1],730,100,15,'#7fe0ff');
     rows.forEach((r,i)=>{const y=150+i*56;if(!(i%2)){ctx.fillStyle='rgba(255,255,255,.05)';ctx.fillRect(110,y-24,740,48);}txt(r[0],140,y,15,'#ffe9a8','left',false);txt(r[1],460,y,13,'#ffffff','center',false);txt(r[2],730,y,13,'#ffffff','center',false);});
     txt(TOUCH?'SHIELD + STICK = ROLL / DODGE   ·   SHIELD + ATTACK = GRAB':'L + A/D = ROLL   ·   L + S = DODGE   ·   L + J = GRAB',480,400,12,'#cfc6ef');
-    txt('IN THE AIR, ATTACK + A DIRECTION = 5 MORE MOVES',480,432,12,'#cfc6ef');
+    txt(TOUCH?'IN THE AIR: ATTACK + STICK = 5 MORE MOVES · STICK ↓ = STOMP':'IN THE AIR: J + A DIRECTION = 5 MORE MOVES · S + J = STOMP',480,432,12,'#cfc6ef');
   }else{
     P.list.forEach(([h,b],i)=>{const y=108+i*62;txt(h,140,y,16,'#ff9ad0','left',false);txt(b,140,y+26,12,'#efe8ff','left',false);});
   }
